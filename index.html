@@ -1,493 +1,476 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Timepass – Viral Mini Games Collection</title>
-  <meta name="description" content="Explore 11 fun and viral mini games inspired by neal.fun! Fun, unique, interactive games with rich visuals and engagement." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&family=Fira+Mono&family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
-  
-  <style>
-    :root {
-      --bg-dark: #14171d;
-      --bg-light: #f3f4f6;
-      --panel-bg-dark: #22242a;
-      --panel-bg-light: #fff;
-      --sidebar-bg-dark: #191e24;
-      --sidebar-bg-light: #ededef;
-      --accent-dark: #63ec73;
-      --accent-light: #208040;
-      --text-dark: #f3f4f6;
-      --text-light: #121212;
-      --panel-shadow-dark: 0 6px 24px rgba(100,255,100,0.18);
-      --panel-shadow-light: 0 6px 24px rgba(50,150,50,0.25);
-      --radius: 17px;
-      --mono: 'Fira Mono', monospace;
-      --main-font: 'Roboto', sans-serif;
-    }
-
-    /* Reset and base */
-    * {
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Timepass – Viral Mini Games Collection</title>
+<meta name="description" content="Explore 11 fun and viral mini games inspired by neal.fun! Fun, unique, interactive games with rich visuals and engagement." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&family=Fira+Mono&family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg-dark: #14171d;
+    --bg-light: #f3f4f6;
+    --panel-bg-dark: #22242a;
+    --panel-bg-light: #fff;
+    --sidebar-bg-dark: #191e24;
+    --sidebar-bg-light: #ededef;
+    --accent-dark: #63ec73;
+    --accent-light: #208040;
+    --text-dark: #f3f4f6;
+    --text-light: #121212;
+    --panel-shadow-dark: 0 6px 24px rgba(100,255,100,0.18);
+    --panel-shadow-light: 0 6px 24px rgba(50,150,50,0.25);
+    --radius: 17px;
+    --mono: 'Fira Mono', monospace;
+    --main-font: 'Roboto', sans-serif;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: var(--main-font);
+    background: var(--bg-dark);
+    color: var(--text-dark);
+    min-height: 100vh;
+    display: flex;
+    align-items: stretch;
+    min-width: 320px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  body.light {
+    background: var(--bg-light);
+    color: var(--text-light);
+  }
+  /* Sidebar */
+  #sidebar {
+    width: 320px;
+    background: var(--sidebar-bg-dark);
+    min-height: 100vh;
+    padding: 1.5rem 1rem 1rem 1rem;
+    border-right: 2px solid #171b20;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 26px 0 #000c;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    transition: background-color 0.3s;
+  }
+  body.light #sidebar {
+    background: var(--sidebar-bg-light);
+    border-color: #ccc;
+    box-shadow: 0 0 30px 0 #afefa97a;
+  }
+  #sidebar h1 {
+    margin: 0 0 1rem 0;
+    color: var(--accent-dark);
+    font-family: 'Archivo', sans-serif;
+    font-size: 2.1rem;
+    letter-spacing: 3px;
+    font-weight: 900;
+    transition: color 0.3s;
+  }
+  body.light #sidebar h1 {
+    color: var(--accent-light);
+  }
+  #sidebar p {
+    margin: 0 0 1rem 0;
+    color: #888;
+    font-size: 1rem;
+    transition: color 0.3s;
+  }
+  body.light #sidebar p {
+    color: #555;
+  }
+  #game-list {
+    flex: 1 1 auto;
+    padding: 0 16px 0 16px;
+    overflow-y: auto;
+  }
+  .sidebar-card {
+    display: block;
+    border-radius: var(--radius);
+    background: #23262d;
+    color: #fff;
+    text-decoration: none;
+    margin-bottom: 13px;
+    padding: 0.92rem 1rem;
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: 1.02rem;
+    letter-spacing: 0.04rem;
+    box-shadow: 0 4px 16px #0003;
+    transition: background 0.24s, color 0.26s, box-shadow 0.21s;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+  .sidebar-card:hover:not(.active),
+  .sidebar-card:focus-visible:not(.active) {
+    background: #30353a;
+    color: var(--accent-dark);
+  }
+  .sidebar-card.active,
+  .sidebar-card:focus-visible.active {
+    background: linear-gradient(90deg, var(--accent-dark), #6ed8e7 92%);
+    color: #191e24;
+    box-shadow: 0 8px 26px #63ec7367;
+    font-weight: 900;
+  }
+  body.light .sidebar-card {
+    background: #ddd;
+    color: #222;
+    box-shadow: none;
+  }
+  body.light .sidebar-card:hover:not(.active),
+  body.light .sidebar-card:focus-visible:not(.active){
+    background: #a9dbb1;
+    color: var(--accent-light);
+  }
+  body.light .sidebar-card.active {
+    background: linear-gradient(90deg, var(--accent-light), #327f58 92%);
+    color: #edf4e0;
+    box-shadow: 0 8px 26px #4caf5067;
+    font-weight: 900;
+  }
+  #sidebarfooter {
+    padding: 1em;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #6fa281;
+    border-top: 1.2px solid #21262f;
+    user-select: none;
+  }
+  body.light #sidebarfooter {
+    color: #427942;
+    border-color: #aacbaa;
+  }
+  #sidebarfooter a {
+    color: var(--accent-dark);
+    text-decoration: none;
+    user-select: none;
+    transition: color 0.3s;
+  }
+  body.light #sidebarfooter a {
+    color: var(--accent-light);
+  }
+  #sidebarfooter a:hover,
+  #sidebarfooter a:focus {
+    text-decoration: underline;
+    outline: none;
+  }
+  /* Scrollbar for Sidebar */
+  #sidebar::-webkit-scrollbar {
+    width: 9px;
+  }
+  #sidebar::-webkit-scrollbar-track {
+    background: var(--sidebar-bg-dark);
+    transition: background-color 0.3s;
+  }
+  body.light #sidebar::-webkit-scrollbar-track {
+    background: var(--sidebar-bg-light);
+  }
+  #sidebar::-webkit-scrollbar-thumb {
+    background: #4caf50cc;
+    border-radius: 8px;
+  }
+  /* Main Content */
+  #main {
+    flex: 1;
+    background: var(--panel-bg-dark);
+    padding: 2rem 2.5rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  body.light #main {
+    background: var(--panel-bg-light);
+    color: var(--text-light);
+  }
+  #maincontent {
+    max-width: 700px;
+    margin: 30px auto 0 auto;
+    background: #242944;
+    border-radius: var(--radius);
+    box-shadow: var(--panel-shadow-dark);
+    min-height: 540px;
+    padding: 3.2rem 2.3rem 2.2rem 2.3rem;
+    color: #eee;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+  }
+  body.light #maincontent {
+    background: #f8faff;
+    color: var(--text-light);
+    box-shadow: var(--panel-shadow-light);
+  }
+  #maincontent h2 {
+    font-size: 2.1rem;
+    margin: 0 0 0.35em 0;
+    color: var(--accent2);
+    font-weight: 800;
+    transition: color 0.3s;
+  }
+  body.light #maincontent h2 {
+    color: var(--accent-dark);
+  }
+  #maincontent p,
+  #maincontent p.description {
+    color: #b3e6ac;
+    font-size: 1.15rem;
+    margin: 0 0 1.25em 0;
+    user-select: text;
+    transition: color 0.3s;
+  }
+  body.light #maincontent p,
+  body.light #maincontent p.description {
+    color: #3c5e1a;
+  }
+  .card-img {
+    width: 100%;
+    max-width: 260px;
+    border-radius: 14px;
+    margin: 15px auto 14px;
+    filter: drop-shadow(0 4px 16px #5ce57350);
+    object-fit: cover;
+    display: block;
+    transition: filter 0.3s;
+  }
+  body.light .card-img {
+    filter: drop-shadow(0 4px 16px #47a44a60);
+  }
+  #gameui {
+    margin-top: 16px;
+    min-height: 280px;
+  }
+  /* Buttons and input */
+  button,
+  input[type='button'],
+  input[type='submit'] {
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--accent-dark);
+    color: #121212;
+    padding: 10px 18px;
+    margin: 0.4rem 0.6rem 0.4rem 0;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+    user-select: none;
+  }
+  button:hover,
+  button:focus-visible {
+    background-color: #47c450;
+    outline: none;
+  }
+  body.light button,
+  body.light input[type='button'],
+  body.light input[type='submit'] {
+    background-color: var(--accent-light);
+    color: #f0f8e6;
+  }
+  body.light button:hover,
+  body.light button:focus-visible {
+    background-color: #249022;
+  }
+  input[type='text'],
+  input[type='password'] {
+    padding: 8px 12px;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    border: 1.5px solid #444;
+    background: #111;
+    color: #eee;
+    margin-right: 10px;
+    outline-offset: 2px;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  input[type='text']:focus,
+  input[type='password']:focus {
+    border-color: var(--accent-dark);
+    outline: none;
+  }
+  body.light input[type='text'],
+  body.light input[type='password'] {
+    background: #eee;
+    color: #242424;
+    border-color: #82bb56;
+  }
+  body.light input[type='text']:focus,
+  body.light input[type='password']:focus {
+    border-color: var(--accent-light);
+  }
+  canvas {
+    display: block;
+    margin: 1rem auto;
+    background: var(--main-bg);
+    border-radius: 10px;
+    box-shadow: 0 0 18px var(--accent-dark);
+    transition: box-shadow 0.3s;
+  }
+  body.light canvas {
+    background: var(--bg-light);
+    box-shadow: 0 0 18px var(--accent-light);
+  }
+  img.game-image {
+    width: 100%;
+    max-width: 280px;
+    border-radius: 12px;
+    display: block;
+    margin: 0.8rem auto 1.2rem;
+    box-shadow: 0 0 15px rgb(76 175 80 / 0.5);
+    transition: box-shadow 0.3s;
+  }
+  body.light img.game-image {
+    box-shadow: 0 0 15px var(--accent-light);
+  }
+  @media (max-width: 900px) {
     body {
-      margin: 0;
-      font-family: var(--main-font);
-      background: var(--bg-dark);
-      color: var(--text-dark);
-      min-height: 100vh;
-      display: flex;
-      align-items: stretch;
-      min-width: 320px;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    body.light {
-      background: var(--bg-light);
-      color: var(--text-light);
-    }
-
-    /* Sidebar */
-    #sidebar {
-      width: 320px;
-      background: var(--sidebar-bg-dark);
-      min-height: 100vh;
-      padding: 1.5rem 1rem 1rem 1rem;
-      border-right: 2px solid #171b20;
-      display: flex;
       flex-direction: column;
-      box-shadow: 0 0 26px 0 #000c;
-      position: sticky;
-      top: 0;
-      left: 0;
-      z-index: 10;
-      transition: background-color 0.3s;
+      height: auto;
     }
-    body.light #sidebar {
-      background: var(--sidebar-bg-light);
-      border-color: #ccc;
-      box-shadow: 0 0 30px 0 #afefa97a;
-    }
-
-    #sidebar h1 {
-      margin: 0 0 1rem 0;
-      color: var(--accent-dark);
-      font-family: 'Archivo', sans-serif;
-      font-size: 2.1rem;
-      letter-spacing: 3px;
-      font-weight: 900;
-      transition: color 0.3s;
-    }
-    body.light #sidebar h1 {
-      color: var(--accent-light);
-    }
-
-    #sidebar p {
-      margin: 0 0 1rem 0;
-      color: #888;
-      font-size: 1rem;
-      transition: color 0.3s;
-    }
-    body.light #sidebar p {
-      color: #555;
-    }
-
-    #game-list {
-      flex: 1 1 auto;
-      padding: 0 16px 0 16px;
-      overflow-y: auto;
-    }
-    .sidebar-card {
-      display: block;
-      border-radius: var(--radius);
-      background: #23262d;
-      color: #fff;
-      text-decoration: none;
-      margin-bottom: 13px;
-      padding: 0.92rem 1rem;
-      font-family: 'Archivo', sans-serif;
-      font-weight: 800;
-      font-size: 1.02rem;
-      letter-spacing: 0.04rem;
-      box-shadow: 0 4px 16px #0003;
-      transition: background 0.24s, color 0.26s, box-shadow 0.21s;
-      border: none;
-      outline: none;
-      cursor: pointer;
-    }
-    .sidebar-card:hover:not(.active),
-    .sidebar-card:focus-visible:not(.active) {
-      background: #30353a;
-      color: var(--accent-dark);
-    }
-    .sidebar-card.active,
-    .sidebar-card:focus-visible.active {
-      background: linear-gradient(90deg, var(--accent-dark), #6ed8e7 92%);
-      color: #191e24;
-      box-shadow: 0 8px 26px #63ec7367;
-      font-weight: 900;
-    }
-    body.light .sidebar-card {
-      background: #ddd;
-      color: #222;
+    #sidebar {
+      width: 100vw;
+      min-height: 70px;
+      border-right: none;
+      border-bottom: 2px solid #181a1f;
+      padding: 8px 10px 0 10px;
+      flex-shrink: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
       box-shadow: none;
     }
-    body.light .sidebar-card:hover:not(.active),
-    body.light .sidebar-card:focus-visible:not(.active){
-      background: #a9dbb1;
-      color: var(--accent-light);
+    #sidebar h1 {
+      font-size: 1.2rem;
+      padding: 8px 10px 8px 10px;
     }
-    body.light .sidebar-card.active {
-      background: linear-gradient(90deg, var(--accent-light), #327f58 92%);
-      color: #edf4e0;
-      box-shadow: 0 8px 26px #4caf5067;
-      font-weight: 900;
+    #sidebar p {
+      display: none;
     }
-
-    #sidebarfooter {
-      padding: 1em;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #6fa281;
-      border-top: 1.2px solid #21262f;
-      user-select: none;
-    }
-    body.light #sidebarfooter {
-      color: #427942;
-      border-color: #aacbaa;
-    }
-    #sidebarfooter a {
-      color: var(--accent-dark);
-      text-decoration: none;
-      user-select: none;
-      transition: color 0.3s;
-    }
-    body.light #sidebarfooter a {
-      color: var(--accent-light);
-    }
-    #sidebarfooter a:hover,
-    #sidebarfooter a:focus {
-      text-decoration: underline;
-      outline: none;
-    }
-
-    /* Scrollbar for Sidebar */
-    #sidebar::-webkit-scrollbar {
-      width: 9px;
-    }
-    #sidebar::-webkit-scrollbar-track {
-      background: var(--sidebar-bg-dark);
-      transition: background-color 0.3s;
-    }
-    body.light #sidebar::-webkit-scrollbar-track {
-      background: var(--sidebar-bg-light);
-    }
-    #sidebar::-webkit-scrollbar-thumb {
-      background: #4caf50cc;
-      border-radius: 8px;
-    }
-
-    /* Main Content */
-    #main {
-      flex: 1;
-      background: var(--panel-bg-dark);
-      padding: 2rem 2.5rem;
-      overflow-y: auto;
+    #game-list {
+      flex-direction: row;
+      gap: 1rem;
+      justify-content: flex-start;
       display: flex;
-      flex-direction: column;
-      transition: background-color 0.3s, color 0.3s;
     }
-    body.light #main {
-      background: var(--panel-bg-light);
-      color: var(--text-light);
+    .sidebar-card {
+      margin-bottom: 0;
+      margin-right: 10px;
+      display: inline-block;
+      min-width: 160px;
+      padding: 0.6rem 1rem;
+      font-size: 0.95rem;
+      border-radius: 10px;
+      text-align: center;
     }
-
-    #maincontent {
-      max-width: 700px;
-      margin: 30px auto 0 auto;
-      background: #242944;
-      border-radius: var(--radius);
-      box-shadow: var(--panel-shadow-dark);
-      min-height: 540px;
-      padding: 3.2rem 2.3rem 2.2rem 2.3rem;
-      color: #eee;
-      transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-    }
-    body.light #maincontent {
-      background: #f8faff;
-      color: var(--text-light);
-      box-shadow: var(--panel-shadow-light);
-    }
-    #maincontent h2 {
-      font-size: 2.1rem;
-      margin: 0 0 0.35em 0;
-      color: var(--accent2);
-      font-weight: 800;
-      transition: color 0.3s;
-    }
-    body.light #maincontent h2 {
-      color: var(--accent-dark);
-    }
-    #maincontent p,
-    #maincontent p.description {
-      color: #b3e6ac;
-      font-size: 1.15rem;
-      margin: 0 0 1.25em 0;
-      user-select: text;
-      transition: color 0.3s;
-    }
-    body.light #maincontent p,
-    body.light #maincontent p.description {
-      color: #3c5e1a;
+    #main {
+      padding: 1rem 1rem 2rem;
+      min-height: 480px;
     }
     .card-img {
-      width: 100%;
-      max-width: 260px;
-      border-radius: 14px;
-      margin: 15px auto 14px;
-      filter: drop-shadow(0 4px 16px #5ce57350);
-      object-fit: cover;
-      display: block;
-      transition: filter 0.3s;
+      max-width: 100%;
+      max-height: none;
     }
-    body.light .card-img {
-      filter: drop-shadow(0 4px 16px #47a44a60);
-    }
-    #gameui {
-      margin-top: 16px;
-      min-height: 280px;
-    }
-
-    /* Buttons and input */
-    button,
-    input[type='button'],
-    input[type='submit'] {
-      font-weight: 600;
-      border: none;
-      border-radius: 8px;
-      background-color: var(--accent-dark);
-      color: #121212;
-      padding: 10px 18px;
-      margin: 0.4rem 0.6rem 0.4rem 0;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background-color 0.25s ease;
-      user-select: none;
-    }
-    button:hover,
-    button:focus-visible {
-      background-color: #47c450;
-      outline: none;
-    }
-    body.light button,
-    body.light input[type='button'],
-    body.light input[type='submit'] {
-      background-color: var(--accent-light);
-      color: #f0f8e6;
-    }
-    body.light button:hover,
-    body.light button:focus-visible {
-      background-color: #249022;
-    }
-    input[type='text'],
-    input[type='password'] {
-      padding: 8px 12px;
-      font-size: 1.1rem;
-      border-radius: 6px;
-      border: 1.5px solid #444;
-      background: #111;
-      color: #eee;
-      margin-right: 10px;
-      outline-offset: 2px;
-      transition: background-color 0.3s, border-color 0.3s;
-    }
-    input[type='text']:focus,
-    input[type='password']:focus {
-      border-color: var(--accent-dark);
-      outline: none;
-    }
-    body.light input[type='text'],
-    body.light input[type='password'] {
-      background: #eee;
-      color: #242424;
-      border-color: #82bb56;
-    }
-    body.light input[type='text']:focus,
-    body.light input[type='password']:focus {
-      border-color: var(--accent-light);
-    }
-    canvas {
-      display: block;
-      margin: 1rem auto;
-      background: var(--main-bg);
-      border-radius: 10px;
-      box-shadow: 0 0 18px var(--accent-dark);
-      transition: box-shadow 0.3s;
-    }
-    body.light canvas {
-      background: var(--bg-light);
-      box-shadow: 0 0 18px var(--accent-light);
-    }
-    img.game-image {
-      width: 100%;
-      max-width: 280px;
-      border-radius: 12px;
-      display: block;
-      margin: 0.8rem auto 1.2rem;
-      box-shadow: 0 0 15px rgb(76 175 80 / 0.5);
-      transition: box-shadow 0.3s;
-    }
-    body.light img.game-image {
-      box-shadow: 0 0 15px var(--accent-light);
-    }
-
-    /* Responsive */
-    @media (max-width: 900px) {
-      body {
-        flex-direction: column;
-        height: auto;
-      }
-      #sidebar {
-        width: 100vw;
-        min-height: 70px;
-        border-right: none;
-        border-bottom: 2px solid #181a1f;
-        padding: 8px 10px 0 10px;
-        flex-shrink: 0;
-        overflow-x: auto;
-        overflow-y: hidden;
-        white-space: nowrap;
-        box-shadow: none;
-      }
-      #sidebar h1 {
-        font-size: 1.2rem;
-        padding: 8px 10px 8px 10px;
-      }
-      #sidebar p {
-        display: none;
-      }
-      #game-list {
-        flex-direction: row;
-        gap: 1rem;
-        justify-content: flex-start;
-        display: flex;
-      }
-      .sidebar-card {
-        margin-bottom: 0;
-        margin-right: 10px;
-        display: inline-block;
-        min-width: 160px;
-        padding: 0.6rem 1rem;
-        font-size: 0.95rem;
-        border-radius: 10px;
-        text-align: center;
-      }
-      #main {
-        padding: 1rem 1rem 2rem;
-        min-height: 480px;
-      }
-      .card-img {
-        max-width: 100%;
-        max-height: none;
-      }
-    }
-
-    footer {
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      text-align: center;
-      font-size: 1rem;
-      color: #6fa281;
-      background: rgba(34, 36, 42, 0.97);
-      padding: 0.65em 0 0.3em 0;
-      z-index: 20;
-      letter-spacing: 1.2px;
-      font-family: var(--main-font);
-      border-top: 1px solid #1e2d1b;
-      user-select: none;
-      transition: color 0.3s, background-color 0.3s;
-    }
-    body.light footer {
-      color: #437f48;
-      background: #e5f2dfcc;
-      border-color: #d0ddb2;
-    }
-
-    /* Scrollbar */
-    ::-webkit-scrollbar {
-      width: 9px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #307357b1;
-      border-radius: 8px;
-      transition: background-color 0.3s;
-    }
-    body.light ::-webkit-scrollbar-thumb {
-      background: #4caf506b;
-    }
-    ::-webkit-scrollbar-track {
-      background: #21242c;
-      transition: background-color 0.3s;
-    }
-    body.light ::-webkit-scrollbar-track {
-      background: #e7efdc;
-    }
-
-    /* Header for Toggles */
-    #toggles {
-      position: fixed;
-      top: 13px;
-      right: 12px;
-      z-index: 50;
-      display: flex;
-      gap: 16px;
-    }
-    button#toggle-theme, button#toggle-sound{
-      background: var(--panel-bg-dark);
-      border: 2px solid var(--accent);
-      color: var(--accent);
-      border-radius: 12px;
-      font-size: 1.5rem;
-      width: 48px;
-      height: 48px;
-      cursor: pointer;
-      user-select:none;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    button#toggle-theme:hover, button#toggle-sound:hover, 
-    button#toggle-theme:focus-visible, button#toggle-sound:focus-visible{
-      background: var(--accent);
-      color: var(--text-dark);
-      outline-offset: 3px;
-      outline: 2px solid var(--accent2);
-    }
-    body.light button#toggle-theme,
-    body.light button#toggle-sound {
-      background: var(--panel-bg-light);
-      border-color: var(--accent-light);
-      color: var(--accent-light);
-    }
-    body.light button#toggle-theme:hover,
-    body.light button#toggle-sound:hover,
-    body.light button#toggle-theme:focus-visible,
-    body.light button#toggle-sound:focus-visible {
-      background: var(--accent-light);
-      color: var(--text-light);
-      outline-color: var(--accent-dark);
-    }
-  </style>
+  }
+  footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    font-size: 1rem;
+    color: #6fa281;
+    background: rgba(34, 36, 42, 0.97);
+    padding: 0.65em 0 0.3em 0;
+    z-index: 20;
+    letter-spacing: 1.2px;
+    font-family: var(--main-font);
+    border-top: 1px solid #1e2d1b;
+    user-select: none;
+    transition: color 0.3s, background-color 0.3s;
+  }
+  body.light footer {
+    color: #437f48;
+    background: #e5f2dfcc;
+    border-color: #d0ddb2;
+  }
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 9px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #307357b1;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+  }
+  body.light ::-webkit-scrollbar-thumb {
+    background: #4caf506b;
+  }
+  ::-webkit-scrollbar-track {
+    background: #21242c;
+    transition: background-color 0.3s;
+  }
+  body.light ::-webkit-scrollbar-track {
+    background: #e7efdc;
+  }
+  /* Header for Toggles */
+  #toggles {
+    position: fixed;
+    top: 13px;
+    right: 12px;
+    z-index: 50;
+    display: flex;
+    gap: 16px;
+  }
+  button#toggle-theme, button#toggle-sound {
+    background: var(--panel-bg-dark);
+    border: 2px solid var(--accent-dark);
+    color: var(--accent-dark);
+    border-radius: 12px;
+    font-size: 1.5rem;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  button#toggle-theme:hover, button#toggle-sound:hover,
+  button#toggle-theme:focus-visible, button#toggle-sound:focus-visible {
+    background: var(--accent-dark);
+    color: var(--text-dark);
+    outline-offset: 3px;
+    outline: 2px solid var(--accent2);
+  }
+  body.light button#toggle-theme,
+  body.light button#toggle-sound {
+    background: var(--panel-bg-light);
+    border-color: var(--accent-light);
+    color: var(--accent-light);
+  }
+  body.light button#toggle-theme:hover,
+  body.light button#toggle-sound:hover,
+  body.light button#toggle-theme:focus-visible,
+  body.light button#toggle-sound:focus-visible {
+    background: var(--accent-light);
+    color: var(--text-light);
+    outline-color: var(--accent-dark);
+  }
+</style>
 </head>
 <body>
   <aside id="sidebar" tabindex="0" aria-label="Game navigation">
     <div>
       <h1>TIMEPASS</h1>
-      <p>11 uniquely fun viral games<br/>Inspired by neal.fun</p>
+      <p>11 uniquely fun viral games<br />Inspired by neal.fun</p>
     </div>
     <nav id="game-list" role="navigation" aria-label="Game selection"></nav>
     <div id="sidebarfooter">
-      <a href="mailto:youremail@example.com" style="color:#65fa93;text-decoration:none;">Contact</a> &bull;
+      <a href="mailto:youremail@example.com" style="color:#65fa93;text-decoration:none;">Contact</a>&bull;
       <a href="https://github.com/yourusername/yourrepo" target="_blank" rel="noopener noreferrer" style="color:#57ceff;text-decoration:none;">GitHub</a>
     </div>
   </aside>
@@ -496,7 +479,7 @@
     <section id="maincontent" role="main" tabindex="0">
       <h2>Welcome to Timepass!</h2>
       <p class="description">Select a game <b>(left panel)</b> to start playing instantly. All games are mobile friendly and beautifully crafted.</p>
-      <img id="game-img" src="" alt="" class="card-img" hidden/>
+      <img id="game-img" src="" alt="" class="card-img" hidden />
       <p class="description" id="gameDesc"></p>
       <div id="gameui"></div>
     </section>
@@ -505,20 +488,17 @@
   <footer>
     &copy; <span id="year"></span> You | TIMEPASS | Inspired by neal.fun
   </footer>
-  
-  <!-- UI Toggles -->
+
   <div id="toggles" role="region" aria-label="Settings">
     <button id="toggle-theme" aria-label="Toggle dark or light theme" title="Toggle Dark/Light Mode" tabindex="0">🌙</button>
     <button id="toggle-sound" aria-label="Toggle sound on or off" title="Mute/Unmute All Sounds" tabindex="0">🔊</button>
   </div>
 
   <script>
-    // Year update
+    // YEAR UPDATE
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    /* -------------------
-    Sound & Theme Persistence
-    -------------------- */
+    /* SOUND & THEME PERSISTENCE */
     const body = document.body;
     const toggleThemeBtn = document.getElementById('toggle-theme');
     const toggleSoundBtn = document.getElementById('toggle-sound');
@@ -542,7 +522,7 @@
       toggleSoundBtn.textContent = soundOn ? '🔊' : '🔈';
       toggleSoundBtn.title = soundOn ? 'Mute All Sounds' : 'Unmute All Sounds';
       localStorage.setItem('soundOn', soundOn);
-      // Mute all audio on page globally
+      // Mute all audio globally
       document.querySelectorAll('audio').forEach(a => {
         a.muted = !soundOn;
       });
@@ -561,20 +541,86 @@
     updateThemeUI();
     updateSoundUI();
 
-    /* ---- Games Data and Navigation ---- */
+    /* GAMES ARRAY & NAVIGATION */
 
     const games = [
-      {slug: 'spend-billions-simulator', name:'Spend Billions Simulator', desc:'Try to spend a billionaire’s fortune buying quirky, visual items. How rich are you after each purchase? 🪙', img:'https://cdn.pixabay.com/photo/2017/05/10/13/55/money-2301577_960_720.jpg', code: spendBillionsSimulator},
-      {slug: 'draw-a-perfect-circle', name:'Draw a Perfect Circle', desc:'Draw a circle on the canvas. Watch your live score update dynamically as you draw!', img:'https://cdn.pixabay.com/photo/2017/03/24/00/56/pencil-2167258_960_720.png', code: drawPerfectCircle},
-      {slug: 'make-a-sandwich', name:'Make a Sandwich', desc:'Stack wacky ingredients, watch your sandwich grow sky-high, and see delicious sandwich art!', img:'https://cdn.pixabay.com/photo/2016/03/05/19/02/sandwich-1239431_960_720.jpg', code: makeASandwich},
-      {slug: 'useless-button', name:'Useless Button', desc:'Press this ridiculous button and witness random fun reactions, emoji, and sounds.', img:'https://cdn.pixabay.com/photo/2016/11/19/21/37/button-1835753_960_720.png', code: uselessButton},
-      {slug: 'balloon-pop-fiesta', name:'Balloon Pop Fiesta', desc:'Pop flying balloons with emojis as fast as you can. Balloons fly in all colors, and sounds enhance your popping spree!', img:'https://cdn.pixabay.com/photo/2016/05/01/19/37/balloon-1368897_960_720.png', code: balloonPopFiesta},
-      {slug: 'emoji-combiner', name:'Emoji Combiner', desc:'Select two emojis and create quirky, new combined emojis!', img:'https://cdn.pixabay.com/photo/2018/05/09/08/12/smiley-3387378_960_720.png', code: emojiCombiner},
-      {slug: 'random-compliment-generator', name:'Random Compliment Generator', desc:'Cheer yourself up with animated, uplifting compliments (with fun visuals).', img:'https://cdn.pixabay.com/photo/2017/01/06/19/15/speech-bubble-1951805_960_720.png', code: randomComplimentGenerator},
-      {slug: 'simple-mood-tracker', name:'Simple Mood Tracker', desc:'Pick your mood for instant feedback and track your trend.', img:'https://cdn.pixabay.com/photo/2017/01/31/16/55/smiley-2029850_960_720.png', code: simpleMoodTracker},
-      {slug: 'quick-password-generator', name:'Quick Password Generator', desc:'Generate strong, unique passwords instantly with copy button and complexity toggle.', img:'https://cdn.pixabay.com/photo/2017/06/10/07/09/password-2387664_960_720.jpg', code: quickPasswordGenerator},
-      {slug: 'vote-for-messi-and-ronaldo', name:'Vote for Messi & Ronaldo', desc:'Vote for your football legend and see persistent, live percentages and team images. (Votes saved!)', img:'https://cdn.pixabay.com/photo/2017/03/24/00/56/soccer-2167237_960_720.png', code: voteForMessiAndRonaldo},
-      {slug: 'be-a-hacker', name:'Be a Hacker', desc:`Type code like a real hacker. Code scrolls, matrix background, sounds. Press <b>'F'</b> for fullscreen.`, img:'https://cdn.pixabay.com/photo/2016/11/29/12/54/cyber-1869273_960_720.jpg', code: beAHackerGame},
+      {
+        slug: 'spend-billions-simulator',
+        name: 'Spend Billions Simulator',
+        desc: 'Try to spend a billionaire’s fortune buying quirky, visual items. How rich are you after each purchase? 🪙',
+        img: 'https://cdn.pixabay.com/photo/2017/05/10/13/55/money-2301577_960_720.jpg',
+        code: spendBillionsSimulator
+      },
+      {
+        slug: 'draw-a-perfect-circle',
+        name: 'Draw a Perfect Circle',
+        desc: 'Draw a circle on the canvas. Watch your live score update dynamically as you draw!',
+        img: 'https://cdn.pixabay.com/photo/2017/03/24/00/56/pencil-2167258_960_720.png',
+        code: drawPerfectCircle
+      },
+      {
+        slug: 'make-a-sandwich',
+        name: 'Make a Sandwich',
+        desc: 'Stack wacky ingredients, watch your sandwich grow sky-high, and see delicious sandwich art!',
+        img: 'https://cdn.pixabay.com/photo/2016/03/05/19/02/sandwich-1239431_960_720.jpg',
+        code: makeASandwich
+      },
+      {
+        slug: 'useless-button',
+        name: 'Useless Button',
+        desc: 'Press this ridiculous button and witness random fun reactions, emoji, and sounds.',
+        img: 'https://cdn.pixabay.com/photo/2016/11/19/21/37/button-1835753_960_720.png',
+        code: uselessButton
+      },
+      {
+        slug: 'balloon-pop-fiesta',
+        name: 'Balloon Pop Fiesta',
+        desc: 'Pop flying balloons with emojis as fast as you can. Balloons fly in all colors, and sounds enhance your popping spree!',
+        img: 'https://cdn.pixabay.com/photo/2016/05/01/19/37/balloon-1368897_960_720.png',
+        code: balloonPopFiesta
+      },
+      {
+        slug: 'emoji-combiner',
+        name: 'Emoji Combiner',
+        desc: 'Select two emojis and create quirky, new combined emojis!',
+        img: 'https://cdn.pixabay.com/photo/2018/05/09/08/12/smiley-3387378_960_720.png',
+        code: emojiCombiner
+      },
+      {
+        slug: 'random-compliment-generator',
+        name: 'Random Compliment Generator',
+        desc: 'Cheer yourself up with animated, uplifting compliments (with fun visuals).',
+        img: 'https://cdn.pixabay.com/photo/2017/01/06/19/15/speech-bubble-1951805_960_720.png',
+        code: randomComplimentGenerator
+      },
+      {
+        slug: 'simple-mood-tracker',
+        name: 'Simple Mood Tracker',
+        desc: 'Pick your mood for instant feedback and track your trend.',
+        img: 'https://cdn.pixabay.com/photo/2017/01/31/16/55/smiley-2029850_960_720.png',
+        code: simpleMoodTracker
+      },
+      {
+        slug: 'quick-password-generator',
+        name: 'Quick Password Generator',
+        desc: 'Generate strong, unique passwords instantly with copy button and complexity toggle.',
+        img: 'https://cdn.pixabay.com/photo/2017/06/10/07/09/password-2387664_960_720.jpg',
+        code: quickPasswordGenerator
+      },
+      {
+        slug: 'vote-for-messi-and-ronaldo',
+        name: 'Vote for Messi & Ronaldo',
+        desc: 'Vote for your football legend and see persistent, live percentages and team images. (Votes saved!)',
+        img: 'https://cdn.pixabay.com/photo/2017/03/24/00/56/soccer-2167237_960_720.png',
+        code: voteForMessiAndRonaldo
+      },
+      {
+        slug: 'be-a-hacker',
+        name: 'Be a Hacker',
+        desc: `Type code like a real hacker. Code scrolls, matrix background, sounds. Press <b>'F'</b> for fullscreen.`,
+        img: 'https://cdn.pixabay.com/photo/2016/11/29/12/54/cyber-1869273_960_720.jpg',
+        code: beAHackerGame
+      }
     ];
 
     const gameListEl = document.getElementById('game-list');
@@ -623,27 +669,782 @@
     // Select first game on load
     showGame(0, gameListEl.querySelector('button'));
 
-    /* ====== GAME FUNCTION DEFINITIONS ======
+    /* === GAME FUNCTIONS BELOW === */
 
-    Please insert the detailed, polished implementations of these functions here:
+    // 1. Spend Billions Simulator
+    function spendBillionsSimulator(container){
+      container.innerHTML = `
+        <div style="text-align:center;">
+          <p style="font-weight: 700; font-size:1.2rem; margin-bottom:0.6rem;">
+            Remaining Fortune: <span id="fortune" style="color:#29e82f;">$1,000,000,000</span>
+          </p>
+          <progress id="fortuneProg" value="1000000000" max="1000000000" 
+            style="width:90%; height:18px; border-radius:9px; accent-color:#4caf50;"></progress>
+          <small id="compare" style="display:block; margin-top:0.3rem; color:#aadb84">Are you richer than everyone on Earth?</small>
+          <button id="buyBtn" style="margin:1rem auto; display:block;" aria-label="Buy a quirky item">Buy a Silly Item</button>
+          <div id="itemShowcase" style="margin-top:14px; min-height:110px;display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap: wrap;"></div>
+          <p style="font-size:0.9rem; margin-top:16px;">
+            Items bought: <span id="itemCount" style="color:#79db77; font-weight:bold;">0</span>
+          </p>
+        </div>
+      `;
 
-    spendBillionsSimulator(container) { ... }
-    drawPerfectCircle(container) { ... }
-    makeASandwich(container) { ... }
-    uselessButton(container) { ... }
-    balloonPopFiesta(container) { ... }
-    emojiCombiner(container) { ... }
-    randomComplimentGenerator(container) { ... }
-    simpleMoodTracker(container) { ... }
-    quickPasswordGenerator(container) { ... }
-    voteForMessiAndRonaldo(container) { ... }
-    beAHackerGame(container) { ... }
+      let fortune = 1_000_000_000;
+      let bought = 0;
 
-    These implementations were provided in the earlier messages. Please copy each full function here.
+      const fortuneProg = container.querySelector('#fortuneProg');
+      const fortuneEl = container.querySelector('#fortune');
+      const compareEl = container.querySelector('#compare');
+      const buyBtn = container.querySelector('#buyBtn');
+      const itemShowcase = container.querySelector('#itemShowcase');
+      const itemCountEl = container.querySelector('#itemCount');
 
-    For brevity, they are omitted here but are ready to be pasted exactly as before.
-    */
+      const items = [
+        {name: 'Golden Toilet', min:1e6, max:7e7, color:'#E1AB32', img:'https://cdn.pixabay.com/photo/2016/11/07/16/00/gold-toilet-1808547_1280.png'},
+        {name: 'Diamond Sneakers', min:9e5, max:3e7, color:'#cee2f4', img:'https://cdn.pixabay.com/photo/2018/08/11/11/51/shoes-3592233_1280.png'},
+        {name: 'Private Jet', min:4e7, max:1.8e8, color:'#81b6e9', img:'https://cdn.pixabay.com/photo/2013/07/12/19/05/private-jet-152769_1280.png'},
+        {name: 'Giant Rubber Duck', min:4e4, max:3e6, color:'#ffeb68', img:'https://cdn.pixabay.com/photo/2018/07/12/07/12/rubber-duck-3532842_1280.png'},
+        {name: 'Alien Zoo Membership', min:6e6, max:3.5e7, color:'#9addc8', img:'https://cdn.pixabay.com/photo/2016/04/05/11/55/alien-1300297_1280.png'},
+        {name: 'Chocolate Pool', min:8e5, max:3.2e7, color:'#9e764e', img:'https://cdn.pixabay.com/photo/2020/02/23/18/41/chocolate-4871723_1280.jpg'},
+        {name: 'Unicorn Stable', min:7e6, max:6e7, color:'#fac0f0', img:'https://cdn.pixabay.com/photo/2017/07/31/11/08/unicorn-2558655_1280.jpg'},
+        {name: 'Rainbow Car', min:7e6, max:4e7, color:'#ff6e42', img:'https://cdn.pixabay.com/photo/2013/07/12/19/03/vintage-jet-152627_1280.png'},
+        {name: 'Robot Butler', min:3e6, max:1.8e7, color:'#c6d8e6', img:'https://cdn.pixabay.com/photo/2014/04/02/10/56/robot-306463_1280.png'},
+        {name: 'Castle Bounce House', min:1e7, max:5e7, color:'#a9a3f8', img:'https://cdn.pixabay.com/photo/2013/07/13/12/41/castle-146715_1280.png'},
+        {name: 'Mars Real Estate', min:2e8, max:7e8, color:'#ea7676', img:'https://cdn.pixabay.com/photo/2015/11/02/14/12/planet-1013427_1280.jpg'},
+      ];
 
+      const comparators = [
+        [7e8,"Jeff Bezos"], [2.5e8,"Elon Musk"], [1e8,"Taylor Swift"], [5e7,"Top Soccer Star"], [1e6,"Rich Family"], [0,"Everyone!"]
+      ];
+
+      function formatMoney(num) {
+        if(num < 1e6) return "$" + num.toLocaleString();
+        if(num < 1e9) return "$" + (num/1e6).toFixed(1) + "M";
+        return "$" + (num/1e9).toFixed(1) + "B";
+      }
+
+      function updateUI() {
+        fortuneEl.textContent = formatMoney(fortune);
+        fortuneProg.value = fortune;
+        let p = Math.min(100, (fortune / 1e9) * 100);
+        fortuneProg.style.background = `linear-gradient(90deg, #4caf50 ${p}%, #eee ${p}%)`;
+        let compLabel = 'Everyone!';
+        for (const [amt, name] of comparators) {
+          if (fortune >= amt) {
+            compLabel = name;
+            break;
+          }
+        }
+        compareEl.textContent = `Are you richer than ${compLabel}?`;
+        itemCountEl.textContent = bought;
+      }
+
+      buyBtn.onclick = () => {
+        if (fortune <= 0) {
+          alert("You're flat broke! Refresh to play again.");
+          return;
+        }
+        const item = items[Math.floor(Math.random() * items.length)];
+        const cost = Math.floor(Math.random() * (item.max - item.min) + item.min);
+        if (cost > fortune) {
+          container.querySelector('#itemShowcase').innerHTML = `<div style="background:${item.color};padding:8px 14px;border-radius:10px;color:#222;font-weight:bold;">
+            Not enough money to buy <b>${item.name}</b> ($${formatMoney(cost)}) 😞
+          </div>`;
+          return;
+        }
+        fortune -= cost;
+        bought++;
+        updateUI();
+        container.querySelector('#itemShowcase').innerHTML = `
+          <img src="${item.img}" alt="${item.name}" style="max-height:80px;max-width:80px;border-radius:12px;box-shadow:0 3px 9px rgba(0,0,0,0.7);vertical-align: middle; margin-right: 12px;">
+          <span style="font-weight:900;font-size:1.08rem;color:${item.color};vertical-align: middle;">
+            You bought <b>${item.name}</b> for ${formatMoney(cost)}! 🎉
+          </span>
+        `;
+        if (fortune <= 0) {
+          setTimeout(() => alert("You've spent it all! 🥳"), 160);
+        }
+      };
+
+      updateUI();
+    }
+
+    // 2. Draw a Perfect Circle
+    function drawPerfectCircle(container){
+      container.innerHTML = `
+        <div style="max-width:340px; margin:auto; position:relative;">
+          <canvas id="circleCanvas" width="320" height="320" style="touch-action:none; border-radius:14px; background:#1b1e22;box-shadow: 0 0 20px #4caf50;"></canvas>
+          <svg width="320" height="320" style="position:absolute;top:0;left:0;pointer-events:none;">
+            <circle cx="160" cy="160" r="140" stroke="#61d77acb" stroke-width="6" fill="none"></circle>
+          </svg>
+          <div id="ratingCircle" style="position: absolute; top: 140px; left: 118px; width: 92px; height: 92px; border-radius: 50%; background: #111d11cc; color: #4caf50; font-weight: 700; font-size: 1.35rem; display: flex; justify-content: center; align-items: center; user-select:none; box-shadow: 0 0 16px #4caf50aa"></div>
+        </div>
+        <button id="clearCanvas" style="display:block; margin: 18px auto 4px auto;">Clear Drawing</button>
+        <p id="scoreDescription" style="text-align:center; font-size: 1.05rem; user-select:none;">Draw a circle overlapping the green ring. Your score updates live above!</p>
+      `;
+
+      const canvas = container.querySelector('#circleCanvas');
+      const ctx = canvas.getContext('2d');
+      const ratingCircle = container.querySelector('#ratingCircle');
+      const scoreDescription = container.querySelector('#scoreDescription');
+      const clearBtn = container.querySelector('#clearCanvas');
+
+      let drawing = false;
+      let points = [];
+
+      function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        return e.touches ? [e.touches[0].clientX - rect.left , e.touches[0].clientY - rect.top ] : [e.offsetX, e.offsetY];
+      }
+
+      function computeScore() {
+        if(points.length < 12) return 0;
+
+        let sumX = 0, sumY = 0;
+        points.forEach(([x, y]) => { sumX += x; sumY += y; });
+        const centerX = sumX / points.length;
+        const centerY = sumY / points.length;
+
+        const distances = points.map(([x, y]) => Math.hypot(x - centerX, y - centerY));
+        const meanDist = distances.reduce((acc, val) => acc + val, 0) / distances.length;
+        const variance = distances.reduce((acc, val) => acc + (val - meanDist) ** 2, 0) / distances.length;
+
+        let score = Math.max(0, Math.min(100, 180 - variance * 1000));
+        return score;
+      }
+
+      function updateRating() {
+        const score = computeScore();
+        let color = score < 65 ? '#ff5555' : score < 85 ? '#ffbf33' : '#4caf50';
+
+        if (score === 0) {
+          ratingCircle.textContent = '✏️';
+          ratingCircle.style.background = '#111';
+          ratingCircle.style.boxShadow = 'none';
+          scoreDescription.textContent = 'Draw a circle overlapping the ring above.';
+        } else {
+          ratingCircle.textContent = score.toFixed(1) + '%';
+          ratingCircle.style.background = color + 'cc';
+          ratingCircle.style.color = color;
+          ratingCircle.style.boxShadow = `0 0 22px ${color}dd`;
+          scoreDescription.textContent = score >= 90 ? '🎉 Perfect circle!' : 'Keep practicing for a higher score!';
+        }
+      }
+
+      canvas.addEventListener('mousedown', e => {
+        drawing = true; points.length = 0; ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.lineWidth = 4; ctx.strokeStyle = '#4caf50'; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+        ctx.beginPath();
+        let [x, y] = getPos(e);
+        ctx.moveTo(x, y);
+        points.push([x, y]);
+        updateRating();
+      });
+      canvas.addEventListener('mousemove', e => {
+        if(!drawing) return;
+        let [x, y] = getPos(e);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        points.push([x, y]);
+        updateRating();
+      });
+      ['mouseup', 'mouseleave'].forEach(evt => canvas.addEventListener(evt, () => drawing = false));
+
+      // Touch events
+      canvas.addEventListener('touchstart', e => {
+        drawing = true; points.length = 0; ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();
+        let [x, y] = getPos(e);
+        ctx.moveTo(x, y);
+        points.push([x, y]);
+        updateRating();
+        e.preventDefault();
+      }, {passive:false});
+      canvas.addEventListener('touchmove', e => {
+        if(!drawing) return;
+        let [x, y] = getPos(e);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        points.push([x, y]);
+        updateRating();
+        e.preventDefault();
+      }, {passive:false});
+      ['touchend', 'touchcancel'].forEach(evt =>
+        canvas.addEventListener(evt, () => drawing = false));
+
+      clearBtn.onclick = () => {
+        points.length = 0;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        updateRating();
+      };
+
+      updateRating();
+    }
+
+    // 3. Make a Sandwich
+    function makeASandwich(container) {
+      container.innerHTML = `
+        <div style="text-align:center; user-select:none;">
+          <button id="addIngBtn" aria-label="Add a sandwich ingredient">Add Ingredient 🥪</button>
+          <button id="clearBtn" style="background:#f44; color:#fff;">Clear Sandwich 🧹</button>
+          <div id="stackView" aria-live="polite" role="list" style="
+            width: 200px; height: 280px; margin: 24px auto 10px auto;
+            display: flex; flex-direction: column-reverse; align-items: center;
+            justify-content: flex-end; gap: 6px;
+            background: url('https://cdn.pixabay.com/photo/2013/07/12/19/05/sandwich-152769_960_720.jpg') bottom/100% no-repeat #25242eaa;
+            border-radius: 20px; border: 2px solid #4caf50; overflow-y: auto;
+            box-shadow: 0 3px 14px #0006;">
+          </div>
+          <p style="margin:0.8em;font-size:.99em;">Layers: <span id="layerCount">0</span></p>
+        </div>
+        <audio id="clangSound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg" preload></audio>
+      `;
+
+      const stackView = container.querySelector('#stackView');
+      const layerCount = container.querySelector('#layerCount');
+      const addBtn = container.querySelector('#addIngBtn');
+      const clearBtn = container.querySelector('#clearBtn');
+      const clangSound = container.querySelector('#clangSound');
+
+      const ingredients = [
+        { name: '🍞 Bread', color: '#f3d6a0' },
+        { name: '🥬 Lettuce', color: '#4caf5080' },
+        { name: '🍅 Tomato', color: '#f4433680' },
+        { name: '🧀 Cheese', color: '#ffd500cc' },
+        { name: '🥓 Bacon', color: '#a64c1480' },
+        { name: '🍔 Patty', color: '#6b3e1680' },
+        { name: '🍳 Fried Egg', color: '#fffab680' },
+        { name: '🥒 Pickle', color: '#a1be4f80' },
+        { name: '🍌 Banana (weird!)', color: '#f5e66380' }
+      ];
+
+      let layers = 0;
+      const maxLayers = 15;
+
+      addBtn.onclick = () => {
+        if (layers >= maxLayers) {
+          alert("Sandwich is getting too tall! It toppled! 🍂");
+          return;
+        }
+        clangSound.currentTime = 0;
+        clangSound.play();
+
+        const ing = ingredients[Math.floor(Math.random() * ingredients.length)];
+        const div = document.createElement('div');
+        div.textContent = ing.name;
+        div.style.backgroundColor = ing.color;
+        div.style.width = '90%';
+        div.style.height = '28px';
+        div.style.borderRadius = '8px';
+        div.style.fontWeight = '700';
+        div.style.display = 'flex';
+        div.style.justifyContent = 'center';
+        div.style.alignItems = 'center';
+        div.style.userSelect = 'none';
+
+        div.animate([{ transform: 'scale(1.2)' }, { transform: 'scale(1)' }], { duration: 250 });
+        stackView.appendChild(div);
+        layers++;
+        layerCount.textContent = layers;
+      };
+
+      clearBtn.onclick = () => {
+        stackView.innerHTML = '';
+        layers = 0;
+        layerCount.textContent = layers;
+      };
+    }
+
+    // 4. Useless Button
+    function uselessButton(container) {
+      container.innerHTML = `
+        <div style="text-align:center;">
+          <button id="uselessBtn" aria-label="Press useless button">Press Me! 🤪</button>
+          <p id="uselessMsg" style="margin-top:1.2em; font-weight: 700; font-size: 1.25rem; min-height:4rem;"></p>
+          <audio id="dingSound" src="https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg"></audio>
+        </div>`;
+
+      const btn = container.querySelector('#uselessBtn');
+      const msg = container.querySelector('#uselessMsg');
+      const ding = container.querySelector('#dingSound');
+
+      const responses = [
+        "Nothing happened 🤷‍♀️",
+        "You wasted a click 🖱️",
+        "Try pressing me again!",
+        "Surprise! ...no effect.",
+        "I'm useless but lovable",
+        "You found the secret!",
+        "Double-click maybe?",
+        "Is this button broken?",
+        "Stop clicking 😒",
+        "You win! (Nothing)"
+      ];
+
+      btn.onclick = () => {
+        const colorOptions = ['#FDAC53','#5FD6CE','#FF5874','#42FF8C','#FFC542','#819DFF'];
+        btn.style.backgroundColor = colorOptions[Math.floor(Math.random() * colorOptions.length)];
+        const text = responses[Math.floor(Math.random() * responses.length)];
+        msg.textContent = text;
+        if (soundOn) {
+          ding.currentTime = 0;
+          ding.play();
+        }
+      };
+    }
+
+    // 5. Balloon Pop Fiesta
+    function balloonPopFiesta(container) {
+      container.innerHTML = `
+        <div style="text-align:center;">
+          <p style="font-weight:700; margin-bottom:0.5rem;">Pop as many balloons as you can in 15 seconds!</p>
+          <div id="balloonArea" style="position:relative; height: 300px; border-radius: 12px; background:#181818; border: 2px solid #4caf50; overflow: hidden; margin-bottom: 1rem;"></div>
+          <div style="font-weight:700; margin-bottom: 10px;">
+            ⏱ Time Left: <span id="timer">15</span>s  |   🎯 Score: <span id="score">0</span>
+          </div>
+          <button id="startGameBtn">Start Game</button>
+          <audio id="popSound" src="https://actions.google.com/sounds/v1/pop/pop.ogg" preload></audio>
+        </div>`;
+
+      const area = container.querySelector('#balloonArea');
+      const timerEl = container.querySelector('#timer');
+      const scoreEl = container.querySelector('#score');
+      const startBtn = container.querySelector('#startGameBtn');
+      const popSound = container.querySelector('#popSound');
+
+      const balloonEmojis = ['🎈','🧸','🎉','✨','😍','😜','🦄'];
+      let timeRemaining = 15;
+      let score = 0;
+      let balloonCreatorInterval, timerInterval;
+
+      function randomColor() {
+        return `hsl(${Math.random() * 360}, 88%, 73%)`;
+      }
+
+      function createBalloon() {
+        const balloon = document.createElement('div');
+        balloon.style.position = 'absolute';
+        balloon.style.bottom = '-40px';
+        balloon.style.width = '46px';
+        balloon.style.height = '56px';
+        balloon.style.borderRadius = '50%';
+        balloon.style.backgroundColor = randomColor();
+        balloon.style.left = Math.random() * (area.clientWidth - 46) + 'px';
+        balloon.style.fontSize = '2.4rem';
+        balloon.style.textAlign = 'center';
+        balloon.style.lineHeight = '56px';
+        balloon.style.cursor = 'pointer';
+        balloon.style.userSelect = 'none';
+        balloon.textContent = balloonEmojis[Math.floor(Math.random() * balloonEmojis.length)];
+        balloon.style.transition = 'transform 0.3s ease';
+
+        balloon.onclick = () => {
+          score++;
+          scoreEl.textContent = score;
+          balloon.style.transform = 'scale(0.4) rotate(-25deg)';
+          if(soundOn){
+            popSound.currentTime = 0;
+            popSound.play();
+          }
+          setTimeout(() => balloon.remove(), 250);
+        };
+
+        area.appendChild(balloon);
+
+        let bottom = 0;
+        const speed = 1 + Math.random() * 2;
+        const floatInterval = setInterval(() => {
+          bottom += speed;
+          balloon.style.bottom = bottom + 'px';
+          if (bottom > area.clientHeight + 60) {
+            clearInterval(floatInterval);
+            balloon.remove();
+          }
+        }, 20);
+      }
+
+      function startGame() {
+        if (balloonCreatorInterval) clearInterval(balloonCreatorInterval);
+        if (timerInterval) clearInterval(timerInterval);
+
+        timeRemaining = 15;
+        score = 0;
+        scoreEl.textContent = score;
+        timerEl.textContent = timeRemaining;
+        area.innerHTML = '';
+
+        balloonCreatorInterval = setInterval(createBalloon, 650);
+
+        timerInterval = setInterval(() => {
+          timeRemaining--;
+          timerEl.textContent = timeRemaining;
+          if (timeRemaining <= 0) {
+            clearInterval(balloonCreatorInterval);
+            clearInterval(timerInterval);
+            area.innerHTML = `<p style="color:#4caf50; font-weight: 700; margin-top: 40%; font-size: 1.3rem;">Game Over! Your score: ${score}</p>`;
+          }
+        }, 1000);
+      }
+
+      startBtn.onclick = startGame;
+    }
+
+    // 6. Emoji Combiner
+    function emojiCombiner(container) {
+      container.innerHTML = `
+        <div style="text-align:center;">
+          <h3>Emoji Combiner</h3>
+          <p>Select two emojis to create a new, quirky emoji!</p>
+          <div id="emoji-picker" style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; max-width:360px; margin:auto;"></div>
+          <div id="emoji-result" aria-live="polite" style="font-size:3.5rem; margin:1.3rem 0; min-height:3.5rem;"></div>
+          <button id="resetBtn" style="font-weight:600; font-size:1rem;">Reset</button>
+        </div>
+      `;
+
+      const emojis = ['😀','😎','🤡','👽','🐵','🐸','🍕','🍩','💩','🦄','🚀','⚡','🌈','🔥','🤖','🎃','👻','🥳','🤯'];
+      const picker = container.querySelector('#emoji-picker');
+      const result = container.querySelector('#emoji-result');
+      const resetBtn = container.querySelector('#resetBtn');
+      let selectedEmojis = [];
+
+      function updateUI() {
+        picker.innerHTML = '';
+        emojis.forEach(e => {
+          const btn = document.createElement('button');
+          btn.className = 'sidebar-card';
+          btn.textContent = e;
+          btn.style.fontSize = '2rem';
+          btn.style.width = '52px';
+          btn.style.height = '52px';
+          btn.disabled = selectedEmojis.includes(e);
+          btn.title = `Pick ${e}`;
+          btn.onclick = () => {
+            if (selectedEmojis.length < 2) {
+              selectedEmojis.push(e);
+              if (selectedEmojis.length === 2) updateResult();
+              updateUI();
+            }
+          };
+          picker.appendChild(btn);
+        });
+      }
+
+      function updateResult() {
+        const [first, second] = selectedEmojis;
+        const combos = {
+          '😀😎': '😏',
+          '👽🤖': '👾',
+          '🐵🐸': '🐒',
+          '🍕🍩': '🍽️',
+          '💩👻': '👻💩',
+          '🦄🌈': '✨',
+          '🎃👻': '👻🎃',
+          '🤡🎃': '🤡🎃',
+        };
+        const combo = combos[first + second] || combos[second + first] || (first + second);
+        result.textContent = combo;
+      }
+
+      resetBtn.onclick = () => {
+        selectedEmojis = [];
+        result.textContent = '';
+        updateUI();
+      };
+
+      updateUI();
+    }
+
+    // 7. Random Compliment Generator
+    function randomComplimentGenerator(container) {
+      container.innerHTML = `
+        <div style="text-align:center; user-select:none;">
+          <button id="complimentBtn" style="font-size:1.2rem; padding: 12px 20px; margin-bottom: 1.3rem;">Give me a compliment! ✨</button>
+          <div id="complimentText" style="font-size:1.3rem; font-style: italic; min-height: 3rem; transition: opacity 0.5s;"></div>
+        </div>`;
+
+      const compliments = [
+        "Your smile is dazzling! 😄",
+        "You’re a coding wizard! 🧙‍♂️",
+        "Your ideas light up the room! 💡",
+        "You make the world better! 🌍",
+        "You’re more fun than bubble wrap! 🫧",
+        "Your energy is contagious! ⚡",
+        "You rock the house! 🤘",
+        "You have impeccable style! 😎",
+        "Your kindness is a superpower! ❤️",
+        "You inspire everyone around you! 🌟"
+      ];
+
+      const btn = container.querySelector('#complimentBtn');
+      const text = container.querySelector('#complimentText');
+
+      btn.onclick = () => {
+        text.style.opacity = '0';
+        setTimeout(() => {
+          const compliment = compliments[Math.floor(Math.random() * compliments.length)];
+          text.textContent = compliment;
+          text.style.opacity = '1';
+        }, 300);
+      };
+    }
+
+    // 8. Simple Mood Tracker
+    function simpleMoodTracker(container) {
+      container.innerHTML = `
+      <div style="text-align:center; user-select:none;">
+        <p style="font-weight:700; margin-bottom:1em;">How do you feel today? Pick your mood!</p>
+        <div style="display:flex; justify-content:center; gap:22px; font-size:3rem;">
+          <button title="Happy 😄" aria-label="Happy emoji">😄</button>
+          <button title="Sad 😢" aria-label="Sad emoji">😢</button>
+          <button title="Angry 😠" aria-label="Angry emoji">😠</button>
+          <button title="Surprised 😲" aria-label="Surprised emoji">😲</button>
+          <button title="Love 😍" aria-label="Love emoji">😍</button>
+        </div>
+        <div id="history" style="margin-top:1.5rem; display:flex; justify-content:center; gap: 9px; flex-wrap: wrap; max-width: 240px; margin-left:auto; margin-right:auto;"></div>
+        <div id="message" style="color:#92e88b; font-weight:700; margin-top:1.5rem; font-size:1.1rem;"></div>
+      </div>`;
+
+      const buttons = Array.from(container.querySelectorAll('button'));
+      const historyDiv = container.querySelector("#history");
+      const messageDiv = container.querySelector("#message");
+      let moodsHistory = [];
+
+      const moodMessages = {
+        '😄': "Keep that smile shining! 😊",
+        '😢': "Tough days make you stronger. 💪",
+        '😠': "Take a deep breath. You got this. 🧘‍♂️",
+        '😲': "Life's full of surprises. Embrace it! ✨",
+        '😍': "Love makes the world go round. ❤️"
+      };
+
+      function updateHistory(mood) {
+        moodsHistory.push(mood);
+        if (moodsHistory.length > 10) moodsHistory.shift();
+        historyDiv.innerHTML = moodsHistory.map(m => `<span style="font-size:1.8rem;">${m}</span>`).join('');
+      }
+
+      buttons.forEach(btn => {
+        btn.onclick = () => {
+          const mood = btn.textContent;
+          messageDiv.textContent = moodMessages[mood] || 'Mood recorded!';
+          updateHistory(mood);
+        };
+      });
+    }
+
+    // 9. Quick Password Generator
+    function quickPasswordGenerator(container) {
+      container.innerHTML = `
+      <div style="text-align:center; user-select:none;">
+        <p style="font-weight:700; margin-bottom:1em;">Generate a strong password in one click!</p>
+        <div style="margin-bottom:1rem;">
+          <label><input type="checkbox" checked id="symbolsToggle" /> Include symbols</label>
+        </div>
+        <button id="generateBtn">Generate Password</button>
+        <button id="copyBtn" style="background:#2196f3; color:#fff;">Copy Password</button>
+        <input id="passwordOutput" type="text" aria-label="Generated password" readonly
+          style="width:100%; margin-top:1em; font-size:1.2rem; padding:10px; border-radius:10px; background:#111; border:none; color:#aca;">
+        <div id="copyStatus" style="margin-top:0.7em; color:#4caf50; font-weight:700; font-size:0.9rem;"></div>
+      </div>`;
+
+      const symbolsToggle = container.querySelector('#symbolsToggle');
+      const generateBtn = container.querySelector('#generateBtn');
+      const copyBtn = container.querySelector('#copyBtn');
+      const passwordOutput = container.querySelector('#passwordOutput');
+      const copyStatus = container.querySelector('#copyStatus');
+
+      generateBtn.onclick = () => {
+        const letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        const symbols = '!@#$%^&*()_+-=[]{}|;:"<>,.?/~`';
+        const chars = symbolsToggle.checked ? letters + symbols : letters;
+
+        let password = '';
+        for (let i = 0; i < 16; i++) {
+          password += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        passwordOutput.value = password;
+        copyStatus.textContent = '';
+      };
+
+      copyBtn.onclick = () => {
+        if (!passwordOutput.value) {
+          copyStatus.textContent = 'Generate a password first!';
+          return;
+        }
+        navigator.clipboard.writeText(passwordOutput.value).then(() => {
+          copyStatus.textContent = 'Copied to clipboard! 👍';
+        }, () => {
+          copyStatus.textContent = 'Failed to copy.';
+        });
+      };
+
+      // Generate password on load
+      generateBtn.click();
+    }
+
+    // 10. Vote for Messi & Ronaldo
+    function voteForMessiAndRonaldo(container) {
+      container.innerHTML = `
+        <div style="text-align:center;">
+          <h3>Who is the GOAT? Cast your vote!</h3>
+          <div style="display:flex; justify-content:center; gap: 36px; margin-top: 1rem; user-select:none;">
+            <button id="voteMessi" aria-label="Vote for Lionel Messi" style="font-size:1.3rem; padding:11px 22px; display:flex; align-items:center; gap:8px;">
+              <img src="https://upload.wikimedia.org/wikipedia/en/c/c1/Leonel_Messi_20180626.jpg" alt="Messi" style="width:40px; border-radius:9px;">
+              Messi ⚽
+            </button>
+            <button id="voteRonaldo" aria-label="Vote for Cristiano Ronaldo" style="font-size:1.3rem; padding:11px 22px; display:flex; align-items:center; gap:8px;">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Cristiano_Ronaldo_2018.jpg" alt="Ronaldo" style="width:40px; border-radius:9px;">
+              Ronaldo ⚽
+            </button>
+          </div>
+          <div style="margin-top: 2em;">
+            <div style="width: 90%; margin: auto; height: 26px; background:#222; border-radius: 14px; position: relative;">
+              <div id="voteFill" style="position: absolute; top: 0; left: 0; bottom: 0; background: linear-gradient(90deg,#4caf50,#0adcbd 90%,#82bee5); width: 50%; border-radius: 14px;"></div>
+            </div>
+            <p id="votesDisplay" style="margin-top:.8em; font-weight:700; font-size:1.1rem; user-select:none;"></p>
+          </div>
+        </div>`;
+
+      const voteMessiBtn = container.querySelector("#voteMessi");
+      const voteRonaldoBtn = container.querySelector("#voteRonaldo");
+      const voteFill = container.querySelector("#voteFill");
+      const votesDisplay = container.querySelector("#votesDisplay");
+
+      let votes = {
+        messi: parseInt(localStorage.getItem("votes_messi")) || 0,
+        ronaldo: parseInt(localStorage.getItem("votes_ronaldo")) || 0,
+      };
+
+      function updateVotes() {
+        const total = votes.messi + votes.ronaldo;
+        const messiPercent = total ? Math.round((votes.messi / total) * 100) : 50;
+        const ronaldoPercent = 100 - messiPercent;
+
+        voteFill.style.width = messiPercent + "%";
+        votesDisplay.innerHTML = `Messi: <b>${votes.messi}</b> (${messiPercent}%) | Ronaldo: <b>${votes.ronaldo}</b> (${ronaldoPercent}%)`;
+      }
+
+      voteMessiBtn.onclick = () => {
+        votes.messi++;
+        localStorage.setItem("votes_messi", votes.messi);
+        updateVotes();
+        if(soundOn) alert("You voted for Messi! ⚽");
+      };
+
+      voteRonaldoBtn.onclick = () => {
+        votes.ronaldo++;
+        localStorage.setItem("votes_ronaldo", votes.ronaldo);
+        updateVotes();
+        if(soundOn) alert("You voted for Ronaldo! ⚽");
+      };
+
+      updateVotes();
+    }
+
+    // 11. Be a Hacker
+    function beAHackerGame(container) {
+      container.innerHTML = `
+        <div style="position:relative; height:400px; background:#000 url('https://i.imgur.com/0vHOMRh.png') repeat center; border-radius:16px; box-shadow: 0 0 24px #39ff5d;">
+          <textarea id="hackerInput" placeholder="Type like a hacker..." spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off"
+          style="position:absolute; bottom: 18px; width: 94%; margin: 0 3%; height: 70px;
+            background: rgba(0,0,0,0.9); border:none; color:#39ff5d; font-family: 'Fira Mono', monospace;
+            font-size: 1.25rem; resize:none; outline:none; border-radius: 12px; padding: 1rem 14px;"></textarea>
+          <pre id="codeScreen" aria-live="off" style="
+            position: absolute;
+            top: 10px; bottom: 100px; left: 8px; right: 8px;
+            padding: 1rem 2rem;
+            font-family: 'Fira Mono', monospace;
+            font-size: 1rem;
+            line-height: 1.3;
+            color: #39ff5d;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            user-select: none;
+            border-radius: 10px;
+            letter-spacing: 0.4px;"></pre>
+          <div style="position:absolute; top: 8px; right: 18px; color:#39ff5d; font-family: monospace; font-weight: 700; user-select:none; font-size:0.9rem;">
+            Press <b>F</b> for fullscreen
+          </div>
+        </div>
+      `;
+
+      const input = container.querySelector("#hackerInput");
+      const codeScreen = container.querySelector("#codeScreen");
+
+      const hackerLines = [
+        "echo 'Starting hack script...'",
+        "sudo run_deep_scan --quiet",
+        "Bypassing firewall...",
+        "Downloading secrets...",
+        "All clear. Proceeding...",
+        "Injecting malware...",
+        "System compromised.",
+        "Gathering credentials...",
+        "Brute forcing...",
+        "Extraction complete...",
+        "Encrypting fixes...",
+        "Exfiltrating data...",
+        "Ugly emoji hacks incoming... 💀",
+        "Firewall disabled...",
+        "Connection secured.",
+        "... done.",
+        "logout",
+        "Entering sleep... zZz"
+      ];
+
+      let autoIndex = 0;
+      let autoInterval;
+
+      function appendLine(text) {
+        let lines = codeScreen.textContent.split('\n').filter(Boolean);
+        if(lines.length >= 42) lines.shift();
+        lines.push(text);
+        codeScreen.textContent = lines.join('\n');
+        codeScreen.scrollTop = codeScreen.scrollHeight;
+      }
+
+      function startAutoTyping() {
+        autoInterval = setInterval(() => {
+          appendLine(hackerLines[autoIndex]);
+          autoIndex++;
+          if(autoIndex >= hackerLines.length) {
+            autoIndex = 0;
+            codeScreen.textContent = '';
+          }
+        }, 800);
+      }
+
+      input.addEventListener("input", () => {
+        const value = input.value.trim();
+        if(value.length > 0) {
+          value.split('\n').forEach(line => {
+            appendLine('> ' + line);
+          });
+          input.value = "";
+          if(soundOn) {
+            // Simple beep sound for typing
+            let beep = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
+            beep.volume = 0.15;
+            beep.play();
+          }
+        }
+      });
+
+      codeScreen.textContent = "";
+      startAutoTyping();
+
+      // Fullscreen toggle on F key
+      document.onkeydown = (e) => {
+        if (e.key.toLowerCase() === 'f') {
+          e.preventDefault();
+          if (!document.fullscreenElement) {
+            container.requestFullscreen();
+          } else {
+            document.exitFullscreen();
+          }
+        }
+      };
+    }
   </script>
 </body>
 </html>
