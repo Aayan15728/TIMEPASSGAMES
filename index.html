@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Timepass – 150+ Fun Mini Games</title>
+<meta name="description" content="Fun, quirky, viral mini games inspired by neal.fun. Click any game to play instantly." />
+<style>
+  /* Reset and base styles */
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #222; color: #eee;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex; flex-direction: column; min-height: 100vh;
+  }
+  header, footer {
+    background: #111; text-align: center; padding: 1rem;
+    user-select:none;
+  }
+  header h1 {
+    margin: 0; color: #4caf50; letter-spacing: 3px;
+    font-weight: 900; font-size: 2.6rem;
+  }
+  main {
+    flex: 1; display: flex; flex-direction: row; max-width: 1200px; margin: 1rem auto; width: 95%;
+    gap: 1rem;
+  }
+  /* Game list panel */
+  #game-list {
+    width: 320px;
+    overflow-y: auto;
+    border-right: 2px solid #333;
+    padding-right: 0.5rem;
+  }
+  #game-list h2 {
+    margin-top:0; margin-bottom:1rem; font-weight: 700;
+    color: #4caf50;
+    letter-spacing: 1px;
+  }
+  /* Scrollbar style for game list */
+  #game-list::-webkit-scrollbar {
+    width: 8px;
+  }
+  #game-list::-webkit-scrollbar-track {
+    background: #111;
+  }
+  #game-list::-webkit-scrollbar-thumb {
+    background: #4caf50;
+    border-radius: 10px;
+  }
+  /* Each game card in list */
+  .game-card {
+    background: #333;
+    margin-bottom: 0.7rem;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.05rem;
+    transition: background-color 0.3s ease;
+    outline: none;
+  }
+  .game-card:hover, .game-card:focus, .game-card.selected {
+    background: #4caf50;
+    color: #111;
+  }
+  /* Game play area */
+  #game-play-area {
+    flex: 1;
+    background: #111;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 10px 30px rgb(0 255 85 / 0.15);
+    overflow-y: auto;
+    min-height: 500px;
+  }
+  #game-play-area h2 {
+    margin-top: 0; margin-bottom: 0.3rem;
+    color:#4caf50;
+  }
+  #game-play-area p.description {
+    color: #bbb;
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+  }
+  /* Button style for games */
+  button, input[type="button"], input[type="submit"] {
+    cursor: pointer;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    background-color: #4caf50;
+    color: #111;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    margin: 0.2rem 0.4rem 0.2rem 0;
+  }
+  button:hover, button:focus {
+    background-color: #73e37a;
+    outline: none;
+  }
+  /* Canvas styling */
+  canvas {
+    background-color: #222;
+    display: block;
+    margin: 1rem auto;
+    border-radius: 8px;
+    box-shadow: 0 0 15px #4caf50aa;
+  }
+  /* Responsive */
+  @media(max-width: 900px) {
+    main {
+      flex-direction: column;
+      max-width: 95vw;
+      margin: 1rem auto;
+    }
+    #game-list {
+      width: 100%;
+      border-right: none;
+      border-bottom: 2px solid #333;
+      padding-bottom: 0.7rem;
+      margin-bottom: 0.7rem;
+    }
+    #game-play-area {
+      min-height: 350px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Timepass</h1>
+  <p style="color:#777; margin-top: 0.3rem; user-select:none;">150+ Fun, Quirky Mini Games | Inspired by neal.fun</p>
+</header>
+
+<main>
+  <nav id="game-list" aria-label="Game list" tabindex="0">
+    <h2>Games List</h2>
+    <!-- Games dynamically populated here -->
+  </nav>
+
+  <section id="game-play-area" tabindex="0" aria-live="polite">
+    <h2>Welcome to Timepass!</h2>
+    <p class="description">Select a game on the left to start having fun.</p>
+  </section>
+</main>
+
+<footer>
+  <small style="color:#666;">Created by You • Inspired by neal.fun • <span id="year"></span></small>
+</footer>
+
+<script>
+  // Fill year in footer
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // List of 150 games, including fully coded 10 games, rest placeholders
+  const games = [
+    {
+      slug: 'spend-billions-simulator',
+      name: 'Spend Billions Simulator',
+      desc: 'Try to spend a billionaire’s fortune by buying silly things.',
+      code: spendBillionsSimulator
+    },
+    {
+      slug: 'draw-a-perfect-circle',
+      name: 'Draw a Perfect Circle',
+      desc: 'Test your ability to draw a circle; get a score for accuracy.',
+      code: drawPerfectCircle
+    },
+    {
+      slug: 'make-a-sandwich',
+      name: 'Make a Sandwich',
+      desc: 'Pile up ingredients to make the world’s most outrageous sandwich.',
+      code: makeASandwich
+    },
+    {
+      slug: 'useless-button',
+      name: 'Useless Button',
+      desc: 'Every press triggers a different funny or weird response.',
+      code: uselessButton
+    },
+    {
+      slug: 'balloon-pop-fiesta',
+      name: 'Balloon Pop Fiesta',
+      desc: 'Pop as many balloons as possible in 15 seconds.',
+      code: balloonPopFiesta
+    },
+    {
+      slug: 'emoji-combiner',
+      name: 'Emoji Combiner',
+      desc: 'Smush two emojis into one bizarre creation.',
+      code: emojiCombiner
+    },
+    {
+      slug: 'random-compliment-generator',
+      name: 'Random Compliment Generator',
+      desc: 'Get a fresh, funny compliment every click.',
+      code: randomComplimentGenerator
+    },
+    {
+      slug: 'simple-mood-tracker',
+      name: 'Simple Mood Tracker',
+      desc: 'Pick your mood and see your mood trend over time.',
+      code: simpleMoodTracker
+    },
+    {
+      slug: 'quick-password-generator',
+      name: 'Quick Password Generator',
+      desc: 'Generate strong passwords instantly.',
+      code: quickPasswordGenerator
+    },
+    {
+      slug: 'vote-for-messi-and-ronaldo',
+      name: 'Vote for Messi and Ronaldo',
+      desc: 'Vote for your favorite football legend and see the tally!',
+      code: voteForMessiAndRonaldo
+    }
+  ];
+
+  // Fill up to 150 with placeholders (no code)
+  for(let i = games.length + 1; i <= 150; i++) {
+    games.push({
+      slug: `game-${i}`,
+      name: `Game ${i}`,
+      desc: 'Coming soon!',
+      code: null
+    });
+  }
+
+  const gameListEl = document.getElementById('game-list');
+  const gamePlayArea = document.getElementById('game-play-area');
+
+  // Render game cards list
+  function renderGameList() {
+    games.forEach((game, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'game-card';
+      btn.textContent = game.name;
+      btn.setAttribute('data-slug', game.slug);
+      btn.setAttribute('aria-label', `Play game: ${game.name}`);
+      btn.tabIndex = 0;
+      btn.addEventListener('click', () => selectGame(idx, btn));
+      gameListEl.appendChild(btn);
+    });
+  }
+
+  let currentIndex = null;
+  let gameButtons = [];
+
+  // Select game, run its code
+  function selectGame(idx, btn) {
+    if(currentIndex !== null) {
+      gameButtons[currentIndex].classList.remove('selected');
+    }
+    currentIndex = idx;
+    gameButtons[currentIndex].classList.add('selected');
+    const game = games[idx];
+    gamePlayArea.innerHTML = `<h2>${game.name}</h2><p class="description">${game.desc}</p><div id="game-container"></div>`;
+    if(game.code) {
+      game.code(document.getElementById('game-container'));
+    } else {
+      // placeholder
+      document.getElementById('game-container').innerHTML = '<p style="font-style: italic; color:#666;">This game will be added soon. Stay tuned!</p>';
+    }
+  }
+
+  // Initialize list and buttons
+  renderGameList();
+  gameButtons = [...gameListEl.getElementsByClassName('game-card')];
+
+  // Auto-select first game (optional)
+  selectGame(0, gameButtons[0]);
+
+  /* ====== GAME CODES ====== */
+  
+  // 1. Spend Billions Simulator
+  function spendBillionsSimulator(container) {
+    container.innerHTML = `
+      <div style="text-align:center;">
+        <p style="font-weight: 600; margin-bottom: 0.5rem;">Fortune left: $<span id="fortune">1,000,000,000</span></p>
+        <button id="buy-btn">Buy Something Silly</button>
+        <p id="item-bought" style="margin-top:1rem; min-height:1.4rem;"></p>
+      </div>`;
+    let fortune = 1000000000;
+    const items = [
+      'Golden Toilet',
+      'Diamond Sneakers',
+      'Private Jet Charter',
+      'Giant Rubber Duck',
+      'Personal Robot Butler',
+      'Alien Zoo Membership',
+      'Invisible Yacht',
+      'Mars Colony Ticket',
+      'Chocolate Fountain Pool',
+      'Unicorn Stable'
+    ];
+    const fortuneEl = container.querySelector('#fortune');
+    const itemBoughtEl = container.querySelector('#item-bought');
+    container.querySelector('#buy-btn').onclick = () => {
+      if(fortune <= 0) {
+        alert('You have no more money to spend! Refresh page to try again.');
+        return;
+      }
+      const cost = Math.floor(Math.random() * 25000000) + 1000000;
+      let item = items[Math.floor(Math.random() * items.length)];
+      if(cost > fortune) {
+        itemBoughtEl.textContent = `Not enough fortune left to buy ${item} ($${cost.toLocaleString()})! Try cheaper stuff.`;
+      } else {
+        fortune -= cost;
+        fortuneEl.textContent = fortune.toLocaleString();
+        itemBoughtEl.textContent = `You bought a ${item} for $${cost.toLocaleString()}!`;
+        if(fortune <= 0) alert('You have spent it all! Congratulations!');
+      }
+    };
+  }
+  
+  // 2. Draw a Perfect Circle
+  function drawPerfectCircle(container) {
+    container.innerHTML = `
+      <canvas id="circle-canvas" width="280" height="280" style="border:2px solid #4caf50; touch-action:none;"></canvas>
+      <br/>
+      <button id="score-btn">Score my circle!</button>
+      <p id="score-text" style="margin-top:0.8rem;">Draw a circle on the canvas, then click "Score my circle!"</p>
+      <p style="font-size:0.85rem; color:#999;">Tip: Draw quickly and smoothly for better score.</p>
+    `;
+    const canvas = container.querySelector('#circle-canvas');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+    let points = [];
+
+    canvas.style.touchAction = "none";
+
+    function startDraw(e) {
+      e.preventDefault();
+      drawing = true;
+      points = [];
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = '#4caf50';
+      ctx.beginPath();
+      const rect = canvas.getBoundingClientRect();
+      const x = e.touches ? e.touches[0].clientX - rect.left : e.offsetX;
+      const y = e.touches ? e.touches[0].clientY - rect.top : e.offsetY;
+      ctx.moveTo(x, y);
+      points.push([x, y]);
+    }
+    function draw(e) {
+      if (!drawing) return;
+      e.preventDefault();
+      const rect = canvas.getBoundingClientRect();
+      const x = e.touches ? e.touches[0].clientX - rect.left : e.offsetX;
+      const y = e.touches ? e.touches[0].clientY - rect.top : e.offsetY;
+      ctx.lineTo(x, y);
+      ctx.stroke();
+      points.push([x, y]);
+    }
+    function endDraw(e) {
+      e.preventDefault();
+      drawing = false;
+    }
+
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', endDraw);
+    canvas.addEventListener('mouseleave', endDraw);
+    canvas.addEventListener('touchstart', startDraw, {passive:false});
+    canvas.addEventListener('touchmove', draw, {passive:false});
+    canvas.addEventListener('touchend', endDraw);
+
+    container.querySelector('#score-btn').onclick = () => {
+      if(points.length < 10) {
+        container.querySelector('#score-text').textContent = 'Draw more of a circle!';
+        return;
+      }
+      // Calculate centroid
+      let cx = 0, cy = 0;
+      points.forEach(([x,y]) => { cx+=x; cy+=y; });
+      cx /= points.length; cy /= points.length;
+
+      // Calculate distances
+      let dists = points.map(([x,y]) => Math.hypot(x-cx, y-cy));
+      let avg = dists.reduce((a,b) => a+b,0)/dists.length;
+      let variance = dists.reduce((a,b) => a + (b - avg)**2, 0)/dists.length;
+
+      // Score: max 100, penalize variance heavily
+      let score = Math.max(0, Math.min(100, 150 - variance*500));
+      container.querySelector('#score-text').textContent = `Your circle score is ${score.toFixed(1)}%.`;
+    };
+  }
+
+  // 3. Make a Sandwich
+  function makeASandwich(container) {
+    container.innerHTML = `
+      <div style="text-align:center;">
+      <button id="add-ingredient-btn">Add Random Ingredient 🍔</button>
+      <div id="sandwich-layer-container" style="width:150px; margin:1rem auto; border: 2px solid #4caf50; border-radius:10px; min-height: 200px; display:flex; flex-direction: column-reverse; align-items:center; gap: 4px; background:#222;"></div>
+      <p id="layer-count" style="margin-top:0.8rem; font-weight:600;">Layers: 0</p>
+      <button id="clear-sandwich-btn" style="margin-top:0.6rem;">Clear Sandwich</button>
+      </div>`;
+
+    const containerDiv = container.querySelector('#sandwich-layer-container');
+    const layersCountEl = container.querySelector('#layer-count');
+
+    const ingredients = [
+      {name: '🍞 Bread Slice', color:'#f3d6a0'},
+      {name: '🥬 Lettuce', color:'#3d7d2a'},
+      {name: '🍅 Tomato', color:'#ff4f4f'},
+      {name: '🧀 Cheese', color:'#ffd75f'},
+      {name: '🥓 Bacon', color:'#b44a22'},
+      {name: '🍔 Patty', color:'#5c2a0f'},
+      {name: '🍳 Fried Egg', color:'#fffeab'},
+      {name: '🥒 Pickle', color:'#9fd85c'},
+      {name: '🍌 Banana (weird!)', color:'#f5e663'}
+    ];
+
+    let layers = 0;
+
+    container.querySelector('#add-ingredient-btn').onclick = () => {
+      if(layers >= 15){
+        alert("Sandwich too tall! It's toppling!");
+        return;
+      }
+      const ing = ingredients[Math.floor(Math.random()*ingredients.length)];
+      const div = document.createElement('div');
+      div.textContent = ing.name;
+      div.style.height = '22px';
+      div.style.width = '90%';
+      div.style.borderRadius = '8px';
+      div.style.backgroundColor = ing.color;
+      div.style.display = 'flex';
+      div.style.alignItems = 'center';
+      div.style.justifyContent = 'center';
+      div.style.fontWeight = '700';
+      div.style.userSelect = 'none';
+      containerDiv.appendChild(div);
+      layers++;
+      layersCountEl.textContent = `Layers: ${layers}`;
+    };
+
+    container.querySelector('#clear-sandwich-btn').onclick = () => {
+      containerDiv.innerHTML = '';
+      layers = 0;
+      layersCountEl.textContent = `Layers: 0`;
+    };
+  }
+
+  // 4. Useless Button
+  function uselessButton(container) {
+    container.innerHTML = `
+      <div style="text-align:center;">
+      <button id="useless-btn" aria-label="Press this useless button">Press Me!</button>
+      <p id="useless-response" style="margin-top:1rem; font-size:1.2rem;min-height:2rem;"></p>
+      </div>`;
+    const responses = [
+      "Nothing happened!",
+      "You wasted a click!",
+      "Why did you do that?",
+      "This button is useless!",
+      "Try pressing again...",
+      "Whoa! Did you see that?",
+      "Okay, seriously stop.",
+      "It's broken... or is it?",
+      "You triggered secret mode!",
+      "Is this the real life?"
+    ];
+    container.querySelector('#useless-btn').onclick = () => {
+      const r = responses[Math.floor(Math.random()*responses.length)];
+      container.querySelector('#useless-response').textContent = r;
+    };
+  }
+
+  // 5. Balloon Pop Fiesta
+  function balloonPopFiesta(container) {
+    container.innerHTML = `
+      <p style="text-align:center; font-weight: 600;">Pop as many balloons as you can in 15 seconds!</p>
+      <div id="balloon-area" style="position:relative; height: 350px; background:#111; border-radius:12px; border: 2px solid #4caf50; overflow:hidden;"></div>
+      <p style="text-align:center; font-weight: 600; margin-top: 0.6rem;">
+        Time left: <span id="timer">15</span>s &nbsp;&nbsp; Score: <span id="score">0</span>
+      </p>
+      <button id="start-fiesta" style="margin-top:0.5rem;">Start Game</button>
+    `;
+    const balloonArea = container.querySelector('#balloon-area');
+    const timerEl = container.querySelector('#timer');
+    const scoreEl = container.querySelector('#score');
+    const startBtn = container.querySelector('#start-fiesta');
+    
+    let timer = 15;
+    let score = 0;
+    let intervalId;
+    let balloonInterval;
+
+    function createBalloon() {
+      const balloon = document.createElement('div');
+      balloon.style.position = 'absolute';
+      balloon.style.background = randomColor();
+      balloon.style.borderRadius = '50%';
+      balloon.style.width = '40px';
+      balloon.style.height = '50px';
+      balloon.style.bottom = '0px';
+      balloon.style.left = Math.random() * (balloonArea.clientWidth - 40) + 'px';
+      balloon.style.cursor = 'pointer';
+      balloon.style.boxShadow = 'inset -4px -10px 0px rgba(0, 0, 0, 0.25)';
+      balloon.style.transition = 'transform 0.2s ease';
+      balloon.style.userSelect = 'none';
+
+      balloon.onclick = () => {
+        score++;
+        scoreEl.textContent = score;
+        balloon.style.transform = 'scale(0)';
+        setTimeout(() => balloon.remove(), 200);
+      };
+
+      balloonArea.appendChild(balloon);
+      animateBalloon(balloon);
+    }
+
+    function animateBalloon(balloon) {
+      let bottom = 0;
+      let id = setInterval(() => {
+        bottom += 2 + Math.random()*2; // balloon speed
+        balloon.style.bottom = bottom + 'px';
+        if (bottom > balloonArea.clientHeight) {
+          balloon.remove();
+          clearInterval(id);
+        }
+      }, 20);
+    }
+
+    function randomColor() {
+      const colors = ['#e91e63','#2196f3','#4caf50','#ff9800','#9c27b0','#00bcd4','#ff5722','#8bc34a'];
+      return colors[Math.floor(Math.random()*colors.length)];
+    }
+
+    function startGame() {
+      if(intervalId) clearInterval(intervalId);
+      if(balloonInterval) clearInterval(balloonInterval);
+      timer = 15;
+      score = 0;
+      scoreEl.textContent = score;
+      timerEl.textContent = timer;
+      balloonArea.innerHTML = '';
+
+      balloonInterval = setInterval(() => createBalloon(), 800);
+
+      intervalId = setInterval(() => {
+        timer--;
+        timerEl.textContent = timer;
+        if(timer <= 0) {
+          clearInterval(intervalId);
+          clearInterval(balloonInterval);
+          balloonArea.innerHTML = '<p style="color:#4caf50; margin-top: 40%;">Game Over! Your score: '+score+'</p>';
+        }
+      }, 1000);
+    }
+
+    startBtn.onclick = startGame;
+  }
+
+  // 6. Emoji Combiner
+  function emojiCombiner(container) {
+    container.innerHTML = `
+      <p style="font-weight:600; text-align:center;">Click two emojis to combine them!</p>
+      <div id="emoji-selection" style="display:flex; gap:10px; flex-wrap: wrap; justify-content:center; margin-bottom:1rem;"></div>
+      <div id="result" style="text-align:center; font-size:3rem; height:3rem;"></div>
+      <button id="reset" style="margin-top:1rem; display:block; margin-left:auto; margin-right:auto;">Reset</button>
+    `;
+
+    const emojis = ['😀','😎','🤡','👽','🐵','🐸','🍕','🍩','💩','🦄','🚀','⚡','🌈','🔥','🤖','🎃','👻','🥳','🤯'];
+    const selection = container.querySelector('#emoji-selection');
+    const result = container.querySelector('#result');
+    const resetBtn = container.querySelector('#reset');
+    let selected = [];
+
+    emojis.forEach(e => {
+      let btn = document.createElement('button');
+      btn.className = 'game-card';
+      btn.textContent = e;
+      btn.style.fontSize = '1.8rem';
+      btn.onclick = () => {
+        if (selected.length < 2) {
+          selected.push(e);
+          btn.disabled = true;
+          if (selected.length === 2) combineEmojis();
+        }
+      };
+      selection.appendChild(btn);
+    });
+
+    function combineEmojis() {
+      const [a, b] = selected;
+      // Simple fun combos by concatenation or fun mutations
+      const combos = {
+        '😀😎': '😏',
+        '👽🤖': '👾',
+        '🐵🐸': '🐒',
+        '🍕🍩': '🍽️',
+        '💩👻': '👻💩',
+        '🦄🌈': '✨',
+        '🎃👻': '👻🎃',
+        '🤡🎃': '🤡🎃',
+      };
+      const key1 = a + b;
+      const key2 = b + a;
+      const combo = combos[key1] || combos[key2] || (a + b);
+      result.textContent = combo;
+    }
+
+    resetBtn.onclick = () => {
+      selected = [];
+      result.textContent = '';
+      [...selection.children].forEach(b => b.disabled = false);
+    };
+  }
+
+  // 7. Random Compliment Generator
+  function randomComplimentGenerator(container) {
+    container.innerHTML = `
+      <p style="font-weight:600; text-align:center;">Click to get a fresh compliment!</p>
+      <button id="compliment-btn" style="font-size:1.1rem; padding:0.8rem 1.3rem; display:block; margin: 1rem auto;">Give me a compliment</button>
+      <p id="compliment" style="font-size:1.3rem; text-align:center; font-style:italic; min-height:3rem; user-select:none;"></p>
+    `;
+
+    const compliments = [
+      "You're a shining star!",
+      "You light up the room!",
+      "Your smile is contagious.",
+      "You have impeccable manners.",
+      "You're really courageous!",
+      "Your ideas are incredible.",
+      "You are a gift to those around you.",
+      "You're a great friend.",
+      "You have a brilliant mind.",
+      "Your positivity is infectious!",
+    ];
+
+    container.querySelector('#compliment-btn').onclick = () => {
+      let c = compliments[Math.floor(Math.random()*compliments.length)];
+      container.querySelector('#compliment').textContent = c;
+    };
+  }
+
+  // 8. Simple Mood Tracker
+  function simpleMoodTracker(container) {
+    container.innerHTML = `
+      <p style="font-weight:600; text-align:center;">Pick your mood!</p>
+      <div style="display:flex; justify-content:center; gap:12px; font-size:3rem; user-select:none;">
+        <button aria-label="Happy" style="background:none; border:none; cursor:pointer;">😄</button>
+        <button aria-label="Sad" style="background:none; border:none; cursor:pointer;">😢</button>
+        <button aria-label="Angry" style="background:none; border:none; cursor:pointer;">😠</button>
+        <button aria-label="Surprised" style="background:none; border:none; cursor:pointer;">😲</button>
+        <button aria-label="Love" style="background:none; border:none; cursor:pointer;">😍</button>
+      </div>
+      <p id="mood-response" style="text-align:center; margin-top:1rem;"></p>
+    `;
+
+    const btns = container.querySelectorAll('button');
+    const response = container.querySelector('#mood-response');
+
+    btns.forEach(btn => {
+      btn.onclick = () => {
+        const mood = btn.textContent;
+        let resp = '';
+        switch(mood){
+          case '😄': resp = 'Glad you are happy! Keep shining!'; break;
+          case '😢': resp = 'It’s okay to feel sad sometimes. Sending hugs!'; break;
+          case '😠': resp = 'Take deep breaths. Anger is powerful, use it well.'; break;
+          case '😲': resp = 'Surprised? Life is full of wonders!'; break;
+          case '😍': resp = 'Love makes the world go round. Spread it!'; break;
+          default: resp = 'Mood recorded!';
+        }
+        response.textContent = resp;
+      };
+    });
+  }
+
+  // 9. Quick Password Generator
+  function quickPasswordGenerator(container) {
+    container.innerHTML = `
+      <p style="font-weight:600; text-align:center;">Generate a strong random password</p>
+      <button id="gen-pass" style="display:block; margin: 1rem auto;">Generate Password</button>
+      <input type="text" id="pass-output" style="width:100%; padding:0.5rem; font-size:1.2rem; border-radius: 8px; border:none; background:#333; color:#eee;" readonly aria-label="Generated password"/>
+    `;
+    const passOutput = container.querySelector('#pass-output');
+    container.querySelector('#gen-pass').onclick = () => {
+      const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+=<>?";
+      let pass = "";
+      for(let i=0; i<16; i++) {
+        pass += chars.charAt(Math.floor(Math.random()*chars.length));
+      }
+      passOutput.value = pass;
+    };
+  }
+
+  // 10. Vote for Messi and Ronaldo
+  function voteForMessiAndRonaldo(container) {
+    container.innerHTML = `
+      <p style="font-weight:600; text-align:center;">Vote for your favorite football legend!</p>
+      <div style="display:flex; justify-content:center; gap:30px; margin-top:1rem; user-select:none;">
+        <button id="vote-messi" aria-label="Vote for Messi" style="font-size:1.4rem; padding:0.6rem 1.2rem;">Messi ⚽</button>
+        <button id="vote-ronaldo" aria-label="Vote for Ronaldo" style="font-size:1.4rem; padding:0.6rem 1.2rem;">Ronaldo ⚽</button>
+      </div>
+      <p style="text-align:center; margin-top: 1rem; font-weight:600;">Votes:</p>
+      <p style="text-align:center;" id="votes-count"></p>
+    `;
+    let votes = { messi: 0, ronaldo: 0 };
+    const votesCountEl = container.querySelector('#votes-count');
+    const updateVotesDisplay = () => {
+      votesCountEl.textContent = `Messi: ${votes.messi} | Ronaldo: ${votes.ronaldo}`;
+    };
+    container.querySelector('#vote-messi').onclick = () => {
+      votes.messi++;
+      updateVotesDisplay();
+      alert("You voted for Messi!");
+    };
+    container.querySelector('#vote-ronaldo').onclick = () => {
+      votes.ronaldo++;
+      updateVotesDisplay();
+      alert("You voted for Ronaldo!");
+    };
+    updateVotesDisplay();
+  }
+
+</script>
+
+</body>
+</html>
